@@ -1,12 +1,14 @@
 package pages;
 
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.SelenideElement;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.testng.Assert;
 
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.$x;
+import java.util.ArrayList;
+
+import static com.codeborne.selenide.Selenide.*;
 
 public class MainPage {
   private final By cartButton = By.xpath("//*[@href='#icon-header-basket']/../..");
@@ -23,6 +25,11 @@ public class MainPage {
   private final By restorePasswordButton = By.cssSelector(".link-dotted.auth-modal__restore-link");
   private final By validationErrorMessage = By.cssSelector(".validation-message .ng-star-inserted");
   private final By phoneNumberField = By.cssSelector("#registerUserPhone");
+  private final By faceBookIcon = By.cssSelector(".auth-modal__social-buttons .auth-modal__social-button_type_facebook");
+  private final By googleIcon = By.xpath("//*[@href=\"#icon-google-colored\"]/../..");
+  private final By listMenuItems = By.cssSelector(".side-menu__list .side-menu__item");
+  private final By menuNavigator = By.cssSelector("*[aria-label='Открыть меню']");
+  private final By langButton = By.cssSelector(".lang-header .lang__link");
 
   @Step("Открыть Корзину")
   public MainPage openTheCart() {
@@ -105,13 +112,53 @@ public class MainPage {
 
   @Step("Проверка что Кнопка войти через фейсбук отображается на форме логин")
   public MainPage checkThatFaceBookShowInLoginPage() {
-    $(".auth-modal__social-buttons .auth-modal__social-button_type_facebook").shouldBe(Condition.visible);
+    $(faceBookIcon).shouldBe(Condition.visible);
     return this;
   }
 
   @Step("Проверка что Кнопка войти через фейсбук отображается на форме логин")
   public MainPage checkThatGoogleShowInLoginPage() {
-    $x("//*[@href=\"#icon-google-colored\"]/../..").shouldBe(Condition.visible);
+    $(googleIcon).shouldBe(Condition.visible);
+    return this;
+  }
+
+  @Step("Проверить кнопка каталог товаров отображается в меню")
+  public MainPage catalogButtonIsShownInMenu() {
+    $(menuNavigator).shouldBe(Condition.visible).click();
+    $$(listMenuItems).get(0).shouldHave(Condition.text("Каталог товаров"));
+    return this;
+  }
+
+  @Step("Проверить кнопка Корзина товаров отображается в меню")
+  public MainPage cartButtonIsShownInMenu() {
+    $(menuNavigator).shouldBe(Condition.visible).click();
+    $$(listMenuItems).get(1).shouldHave(Condition.text("Корзина"));
+    return this;
+  }
+
+  @Step("Проверить кнопка скачивания приложения в Google Pay отображается")
+  public MainPage googlePayApp() {
+    $(menuNavigator).shouldBe(Condition.visible).click();
+    $("*[alt='Google Play']").shouldBe(Condition.visible);
+    return this;
+  }
+
+  @Step("Проверить кнопка скачивания приложения в Google Pay отображается")
+  public MainPage appStoreApp() {
+    $(menuNavigator).shouldBe(Condition.visible).click();
+    $("*[alt='AppStore']").shouldBe(Condition.visible);
+    return this;
+  }
+
+  @Step("Проверить первая кнопка смены языка имеет текст RU")
+  public MainPage changeLangButtonShownRU() {
+    $$(langButton).get(0).shouldHave(Condition.text("RU"));
+    return this;
+  }
+
+  @Step("Проверить кнопка скачивания приложения в Google Pay отображается")
+  public MainPage changeLangButtonShownUA() {
+    $$(langButton).get(1).shouldHave(Condition.text("UA"));
     return this;
   }
 

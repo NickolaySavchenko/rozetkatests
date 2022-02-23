@@ -4,6 +4,7 @@ import pages.MainPage;
 
 import static com.codeborne.selenide.Selenide.open;
 import static constans.Urls.BASE_URL_ROZETKA;
+import static constans.Urls.CART;
 
 public class RozetkaTests {
   @Test
@@ -90,6 +91,49 @@ public class RozetkaTests {
     new MainPage()
             .openTheAuthForm()
             .checkThatGoogleShowInLoginPage();
+  }
+  @Test
+  @Description("Проверить кнопка каталог товаров отображается в меню")
+  public void checkThatCatalogButtonIsShownInMenu() {
+    open(BASE_URL_ROZETKA);
+    new MainPage()
+            .catalogButtonIsShownInMenu();
+  }
+
+  @Test
+  @Description("Проверить кнопка Корзина отображается в меню")
+  public void checkThatCartButtonIsShownInMenu() {
+    open(BASE_URL_ROZETKA);
+    new MainPage()
+            .cartButtonIsShownInMenu();
+  }
+  @Test
+  @Description("Проверить кнопка Google App отображается в корзине")
+  public void googleAppIsShown() {
+    open(CART);
+    new MainPage()
+            .googlePayApp();
+  }
+ @Test
+  @Description("Проверить кнопка AppStore App отображается в корзине")
+  public void appleAppIsShown() {
+    open(CART);
+    new MainPage()
+            .appStoreApp();
+  }
+  @Test
+  @Description("Проверить Первой кнопкой смены языка должна быть RU")
+  public void firstButtonChangeLangShouldBeRU() {
+    open(CART);
+    new MainPage()
+            .changeLangButtonShownRU();
+  }
+  @Test
+  @Description("Проверить Второй кнопкой смены языка должна быть UA")
+  public void secondButtonChangeLangShouldBeUA() {
+    open(CART);
+    new MainPage()
+            .changeLangButtonShownUA();
   }
 
 }
